@@ -25,6 +25,18 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return new User("user", passwordEncoder.encode( "1234"), new ArrayList<>());
+//        return new User("user", passwordEncoder.encode( "1234"), new ArrayList<>());
+        Optional<Account> optional = accountRepository.findByEmail(email);
+
+        if(optional.isPresent()){
+            Account account = optional.get();
+            return new SecurityAccount(account);
+        }else{
+            throw new UsernameNotFoundException(email + "사용자 없음");
+        }
+    }
+
+    public void saveAccount(Account account){
+        accountRepository.save(account);
     }
 }
