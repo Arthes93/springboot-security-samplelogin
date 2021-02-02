@@ -6,6 +6,8 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  profiles:
+    include: oauth2, mysql
 logging:
   level:
     org.springframework.security: DEBUG
